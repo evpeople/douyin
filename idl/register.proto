@@ -1,6 +1,6 @@
 syntax="proto3";
-package douyin.core;
-
+package register;
+option go_package="rigister";
 message douyin_user_register_request {
 	string username=1;
 	string password=2;
@@ -10,4 +10,7 @@ message douyin_user_register_response {
 	optional string status_msg=2;
 	int64 user_id=3;
 	string token=4;
+}
+service RegisterService {
+	rpc RegisterUser (douyin_user_register_request) returns (douyin_user_register_response);
 }
