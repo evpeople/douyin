@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 
+	"github.com/bytedance/gopkg/util/logger"
 	"github.com/evpeople/douyin/cmd/core/user/pack"
 	"github.com/evpeople/douyin/cmd/core/user/service"
 	"github.com/evpeople/douyin/kitex_gen/user"
@@ -21,12 +22,15 @@ func (s *UserServiceImpl) RegisterUser(ctx context.Context, req *user.DouyinUser
 		return resp, nil
 	}
 
-	err = service.NewCreateUserService(ctx).CreateUser(req)
+	id, err := service.NewCreateUserService(ctx).CreateUser(req)
 	if err != nil {
+		logger.Debug("registerUser", err)
 		resp.BaseResponse = pack.BuildBaseResp(err)
 		return resp, nil
 	}
+	logger.Debug("out of registerUser", err)
 	resp.BaseResponse = pack.BuildBaseResp(errno.Success)
+	resp.BaseMessage = pack.BuildBaseMsg(id)
 	return resp, nil
 }
 
@@ -44,10 +48,10 @@ func (s *UserServiceImpl) LoginUser(ctx context.Context, req *user.DouyinUserReq
 		resp.BaseResponse = pack.BuildBaseResp(err)
 		return resp, nil
 	}
-	resp.BaseMessage.UserId = uid
+	// resp.BaseMessage.UserId = uid
 	resp.BaseResponse = pack.BuildBaseResp(errno.Success)
+	resp.BaseMessage = pack.BuildBaseMsg(uint(uid))
 	return resp, nil
-	return
 }
 
 // GetUser implements the UserServiceImpl interface.
@@ -62,10 +66,12 @@ func (s *UserServiceImpl) GetUser(ctx context.Context, req *user.DouyinUserMessa
 
 	// users, err := service.NewGetUserService(ctx).GetUser(req)
 	if err != nil {
-		resp.BaseResp = pack.BuildBaseResp(err)
+		resp.BaseResponse=pack.BuildBaseResp(err)
+		// resp.BaseResp = pack.BuildBaseResp(err)
 		return resp, nil
 	}
-	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+		resp.BaseResponse=pack.BuildBaseResp(errno.Success)
+	// resp.BaseResp = pack.BuildBaseResp(errno.Success)
 	resp.User = users
 	return resp, nil
 }

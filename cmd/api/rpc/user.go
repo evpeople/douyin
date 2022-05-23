@@ -70,8 +70,8 @@ func GetUser(ctx context.Context, req *user.DouyinUserMessageRequest) (*user.Use
 	if err != nil {
 		return nil, err
 	}
-	if resp.BaseResp.StatusCode != 0 {
-		return nil, errno.NewErrNo(int64(resp.BaseResp.StatusCode), *resp.BaseResp.StatusMsg)
+	if resp.StatusCode != 0 {
+		return nil, errno.NewErrNo(int64(resp.StatusCode), *resp.StatusMsg)
 	}
 	return resp.User, nil
 }

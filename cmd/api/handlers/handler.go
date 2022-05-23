@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/evpeople/douyin/cmd/core/user/pack"
 	"github.com/evpeople/douyin/kitex_gen/user"
 	"github.com/evpeople/douyin/pkg/errno"
 	"github.com/gin-gonic/gin"
@@ -18,6 +19,13 @@ type RegisterResponse struct {
 // SendRegisterResponse pack response
 func SendRegisterResponse(c *gin.Context, err error, data *UserResp) {
 	Err := errno.ConvertErr(err)
+	if data == nil {
+		c.JSON(http.StatusOK, RegisterResponse{
+			Code:    Err.ErrCode,
+			Message: Err.ErrMsg,
+		})
+		return
+	}
 	c.JSON(http.StatusOK, RegisterResponse{
 		Code:    Err.ErrCode,
 		Message: Err.ErrMsg,
@@ -44,8 +52,10 @@ type UserResponse struct {
 }
 
 func SendUserResponse(c *gin.Context, err error, data *user.User) {
-	Err := errno.ConvertErr(err)
-	c.JSON(http.StatusOK, UserResponse{
-		user.DouyinUesrMessageResponse{BaseResp: &user.BaseResponse{StatusCode: int32(Err.ErrCode), StatusMsg: &Err.ErrMsg}, User: data},
-	})
+	// Err := errno.ConvertErr(err)
+	var resp user.DouyinUesrMessageResponse
+	resp.BaseResponse = pack.BuildBaseResp(err)
+	resp.User = data
+	c.JSON(http.StatusOK,
+		resp)
 }

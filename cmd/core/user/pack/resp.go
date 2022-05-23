@@ -43,3 +43,7 @@ func baseResp(err errno.ErrNo) *user.BaseResponse {
 	return &user.BaseResponse{StatusCode: int32(err.ErrCode), StatusMsg: &err.ErrMsg}
 
 }
+
+func BuildBaseMsg(id uint) *user.BaseMessage {
+	return &user.BaseMessage{UserId: int64(id), Token: ""}
+}
