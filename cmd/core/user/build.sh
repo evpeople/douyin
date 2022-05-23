@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-RUN_NAME="register"
+RUN_NAME="user"
 
 mkdir -p output/bin
 cp script/* output/
