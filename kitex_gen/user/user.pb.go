@@ -293,7 +293,7 @@ type DouyinUesrMessageResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	BaseResp *BaseResponse `protobuf:"bytes,1,opt,name=base_resp,json=baseResp,proto3" json:"base_resp,omitempty"`
+	*BaseResponse `protobuf:"bytes,1,opt,name=base_resp,json=baseResp,proto3" `
 	User     *User         `protobuf:"bytes,2,opt,name=user,proto3" json:"user,omitempty"`
 }
 
@@ -329,12 +329,12 @@ func (*DouyinUesrMessageResponse) Descriptor() ([]byte, []int) {
 	return file_user_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *DouyinUesrMessageResponse) GetBaseResp() *BaseResponse {
-	if x != nil {
-		return x.BaseResp
-	}
-	return nil
-}
+// func (x *DouyinUesrMessageResponse) GetBaseResp() *BaseResponse {
+// 	if x != nil {
+// 		return x.BaseResp
+// 	}
+// 	return nil
+// }
 
 func (x *DouyinUesrMessageResponse) GetUser() *User {
 	if x != nil {
