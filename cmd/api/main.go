@@ -6,11 +6,13 @@ import (
 	"time"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
+	"github.com/bytedance/gopkg/util/logger"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/evpeople/douyin/cmd/api/handlers"
 	"github.com/evpeople/douyin/cmd/api/rpc"
 	"github.com/evpeople/douyin/kitex_gen/user"
 	"github.com/evpeople/douyin/pkg/constants"
+	"github.com/evpeople/douyin/pkg/errno"
 	"github.com/evpeople/douyin/pkg/tracer"
 	"github.com/gin-gonic/gin"
 )
@@ -44,17 +46,30 @@ func main() {
 			if len(loginVar.UserName) == 0 || len(loginVar.PassWord) == 0 {
 				return "", jwt.ErrMissingLoginValues
 			}
-
-			return rpc.CheckUser(context.Background(), &user.DouyinUserRequest{Username: loginVar.UserName, Password: loginVar.PassWord})
+			id, err := rpc.CheckUser(context.Background(), &user.DouyinUserRequest{Username: loginVar.UserName, Password: loginVar.PassWord})
+			c.Set("userID", id)
+			return id, err
 		},
 		TokenLookup:   "header: Authorization, query: token, cookie: jwt",
 		TokenHeadName: "Bearer",
 		TimeFunc:      time.Now,
+		LoginResponse: func(c *gin.Context, code int, message string, time time.Time) {
+			// token := jwt.ExtractClaimsFromToken(jwt.GetToken(c))
+			id := c.GetInt64("userID")
+			c.JSON(http.StatusOK, handlers.RegisterResponse{
+				Code:    int64(code),
+				Message: errno.Success.ErrMsg,
+				UserID:  id,
+				Token:   message,
+			})
+			// logger.Debug(c.Get("JWT_PAYLOAD"))
+		},
 	})
 
-	v1 := r.Group("/v1")
+	v1 := r.Group("/douyin")
 	user1 := v1.Group("/user")
-
+	user1.GET("", handlers.GetUser)
+	// authMiddl
 	user1.POST("/login", authMiddleware.LoginHandler)
 	user1.POST("/register", handlers.Register)
 
