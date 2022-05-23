@@ -52,11 +52,13 @@ func CreateUser(ctx context.Context, users []*User) error {
 }
 
 // QueryUser query list of user info
-func QueryUser(ctx context.Context, userID string) (*User, error) {
+func QueryUser(ctx context.Context, username string) (*User, error) {
 	// res := make([]*User, 0)
 	res := new(User)
-	if err := DB.WithContext(ctx).Where("id = ?", userID).Find(&res).Error; err != nil {
-		return nil, err
+	// ans:=DB.First(res, "user_name = ?", username)
+	if err := DB.First(res, "user_name = ?", username).Error; err != nil {
+		//没有找到数据，可能返回的是 RecordNotExist
+		return res, err
 	}
 	return res, nil
 }

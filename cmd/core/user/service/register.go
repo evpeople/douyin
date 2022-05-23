@@ -3,12 +3,15 @@ package service
 import (
 	"context"
 	"crypto/md5"
+	"errors"
 	"fmt"
 	"io"
 
+	"github.com/bytedance/gopkg/util/logger"
 	"github.com/evpeople/douyin/cmd/core/user/dal/db"
 	"github.com/evpeople/douyin/kitex_gen/user"
 	"github.com/evpeople/douyin/pkg/errno"
+	"gorm.io/gorm"
 )
 
 type CreateUserService struct {
@@ -21,22 +24,24 @@ func NewCreateUserService(ctx context.Context) *CreateUserService {
 }
 
 // CreateUser create user info.
-func (s *CreateUserService) CreateUser(req *user.DouyinUserRequest) error {
+func (s *CreateUserService) CreateUser(req *user.DouyinUserRequest) (uint, error) {
 	users, err := db.QueryUser(s.ctx, req.Username)
-	if err != nil {
-		return err
-	}
-	if users != nil {
-		return errno.UserAlreadyExistErr
+	if err != nil && errors.Is(err, gorm.ErrRecordNotFound) {
+		logger.Debug("test create")
+		h := md5.New()
+		if _, err = io.WriteString(h, req.Password); err != nil {
+			return 0, err
+		}
+		passWord := fmt.Sprintf("%x", h.Sum(nil))
+		ur := []*db.User{{
+			UserName: req.Username,
+			Password: passWord,
+		}}
+		err := db.CreateUser(s.ctx, ur)
+		return ur[0].ID, err
+	} else {
+		// logger.Debug(users.UserName, req.Username)
+		return users.ID, errno.UserAlreadyExistErr
 	}
 
-	h := md5.New()
-	if _, err = io.WriteString(h, req.Password); err != nil {
-		return err
-	}
-	passWord := fmt.Sprintf("%x", h.Sum(nil))
-	return db.CreateUser(s.ctx, []*db.User{{
-		UserName: req.Username,
-		Password: passWord,
-	}})
 }
