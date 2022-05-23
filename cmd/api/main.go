@@ -6,7 +6,6 @@ import (
 	"time"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
-	"github.com/bytedance/gopkg/util/logger"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/evpeople/douyin/cmd/api/handlers"
 	"github.com/evpeople/douyin/cmd/api/rpc"
