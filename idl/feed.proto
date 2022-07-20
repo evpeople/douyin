@@ -28,3 +28,6 @@ message User {
 	optional int64 follower_count=4;
 	bool is_follow=5;
 }
+service VideoService {
+	rpc GetVideos (douyin_feed_request) returns (douyin_feed_response);
+}
