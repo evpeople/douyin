@@ -1,6 +1,7 @@
 syntax = "proto3";
+package feed;
+option go_package="feed";
 /* proto3。沒有 required 和 optional */
-package douyin.core;
 message douyin_feed_request {
 	optional int64 lastest_time=1; //最新投稿时间戳，不填则是当前的时间
 	optional string token=2;//登录用户设置这个值
