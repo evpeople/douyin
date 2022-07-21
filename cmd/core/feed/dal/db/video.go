@@ -39,9 +39,9 @@ func (u *Video) TableName() string {
 }
 
 // MGetVideos multiple get list of user info
-func MGetVideo(ctx context.Context, userIDs int64) (*Video, error) {
-	// res := make([]*Video, 0)
-	res := new(Video)
+func MGetVideo(ctx context.Context, userIDs int64) ([]*Video, error) {
+	res := make([]*Video, 0)
+	// res := new(Video)
 	if err := DB.WithContext(ctx).Where("id = ?", userIDs).Find(&res).Error; err != nil {
 		return nil, err
 	}

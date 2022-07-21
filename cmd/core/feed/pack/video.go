@@ -16,26 +16,41 @@
 package pack
 
 import (
-	"github.com/evpeople/douyin/cmd/core/user/dal/db"
-	"github.com/evpeople/douyin/kitex_gen/user"
+	"github.com/evpeople/douyin/cmd/core/feed/dal/db"
+	"github.com/evpeople/douyin/kitex_gen/feed"
 )
 
 // User pack user info
-func User(u *db.User) *user.User {
+func Video(u *db.Video) *feed.Video {
 	if u == nil {
 		return nil
 	}
 
-	return &user.User{Id: int64(u.UserId), Name: u.UserName, FollowCount: &u.Follow_count, FollowerCount: &u.Follower_count, IsFollow: u.IsFollow}
+	return &feed.Video{
+		Id: 0,
+		Author: &feed.User{
+			Id:            0,
+			Name:          "",
+			FollowCount:   new(int64),
+			FollowerCount: new(int64),
+			IsFollow:      false,
+		},
+		PlayUrl:       "",
+		CoverUrl:      "",
+		FavoriteCount: 0,
+		CommentCount:  0,
+		IsFavorite:    false,
+		Title:         "",
+	}
 }
 
 // Users pack list of user info
-func Users(us []*db.User) []*user.User {
-	users := make([]*user.User, 0)
+func Videos(us []*db.Video) []*feed.Video {
+	videos := make([]*feed.Video, 0)
 	for _, u := range us {
-		if user2 := User(u); user2 != nil {
-			users = append(users, user2)
+		if user2 := Video(u); user2 != nil {
+			videos = append(videos, user2)
 		}
 	}
-	return users
+	return videos
 }

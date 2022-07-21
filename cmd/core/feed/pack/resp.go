@@ -18,13 +18,13 @@ package pack
 import (
 	"errors"
 
-	"github.com/evpeople/douyin/kitex_gen/user"
+	"github.com/evpeople/douyin/kitex_gen/feed"
 	"github.com/evpeople/douyin/pkg/errno"
 	// "github.com/evpeople/douyin/user"
 )
 
 // BuildBaseResp build baseResp from error
-func BuildBaseResp(err error) *user.BaseResponse {
+func BuildBaseResp(err error) *feed.DouyinFeedResponse {
 	if err == nil {
 		return baseResp(errno.Success)
 	}
@@ -38,12 +38,14 @@ func BuildBaseResp(err error) *user.BaseResponse {
 	return baseResp(s)
 }
 
-func baseResp(err errno.ErrNo) *user.BaseResponse {
+func baseResp(err errno.ErrNo) *feed.DouyinFeedResponse {
 	// return &user.BaseResp{StatusCode: err.ErrCode, StatusMessage: err.ErrMsg, ServiceTime: time.Now().Unix()}
-	return &user.BaseResponse{StatusCode: int32(err.ErrCode), StatusMsg: &err.ErrMsg}
+	return &feed.DouyinFeedResponse{StatusCode: int32(err.ErrCode), StatusMsg: &err.ErrMsg}
 
 }
 
-func BuildBaseMsg(id uint) *user.BaseMessage {
-	return &user.BaseMessage{UserId: int64(id), Token: ""}
+func BuildBaseMsg(id uint) *feed.DouyinFeedRequest {
+	tt := int64(id)
+	aa := "ss"
+	return &feed.DouyinFeedRequest{LastestTime: &tt, Token: &aa}
 }
