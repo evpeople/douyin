@@ -66,6 +66,7 @@ func main() {
 	})
 
 	v1 := r.Group("/douyin")
+	v1.Use(authMiddleware.MiddlewareFunc())
 	user1 := v1.Group("/user")
 	user1.GET("", handlers.GetUser)
 	// authMiddl
