@@ -21,19 +21,18 @@ func GetUser(c *gin.Context) {
 	if err := c.BindQuery(&queryVar); err != nil {
 		SendRegisterResponse(c, errno.ConvertErr(err), nil)
 	}
-
 	req := &user.DouyinUserMessageRequest{BaseResp: &user.BaseMessage{UserId: queryVar.UserID, Token: queryVar.Token}}
 	// req := &notedemo.QueryNoteRequest{UserId: userID, Offset: queryVar.Offset, Limit: queryVar.Limit}
 	// if len(queryVar.SearchKeyword) != 0 {
 	// 	req.SearchKey = &queryVar.SearchKeyword
 	// }
 	user, err := rpc.GetUser(context.Background(), req)
-	logger.Debug("getUser", user)
 	// notes, total, err := rpc.QueryNotes(context.Background(), req)
 	if err != nil {
 		SendUserResponse(c, errno.ConvertErr(err), nil)
 		return
 	}
 	// SendResponse(c, errno.Success, map[string]interface{}{constants.Total: total, constants.Notes: notes})
+	logger.Debug("getUser", user)
 	SendUserResponse(c, errno.Success, user)
 }
