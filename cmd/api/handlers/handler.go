@@ -34,6 +34,15 @@ func SendRegisterResponse(c *gin.Context, err error, data *UserResp) {
 	})
 }
 
+func SendBaseResponse(c *gin.Context, err error) {
+	Err := errno.ConvertErr(err)
+	c.JSON(http.StatusOK, RegisterResponse{
+		Code:    Err.ErrCode,
+		Message: Err.ErrMsg,
+	})
+	return
+}
+
 type UserParam struct {
 	UserName string `json:"username"`
 	PassWord string `json:"password"`

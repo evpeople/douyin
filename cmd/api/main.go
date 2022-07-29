@@ -71,7 +71,8 @@ func main() {
 	// authMiddl
 	user1.POST("/login", authMiddleware.LoginHandler)
 	user1.POST("/register", handlers.Register)
-
+	feed := v1.Group("/feed")
+	feed.GET("", handlers.GetVideos)
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		klog.Fatal(err)
 	}
