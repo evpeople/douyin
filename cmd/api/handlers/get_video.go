@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/bytedance/gopkg/util/logger"
 	"github.com/evpeople/douyin/cmd/api/rpc"
@@ -24,10 +25,12 @@ func GetVideos(c *gin.Context) {
 		SendBaseResponse(c, errno.ConvertErr(err))
 	}
 	lst, err := strconv.ParseInt(queryVar.LastestTime, 10, 0)
-	if err != nil {
+	if err != nil && queryVar.LastestTime != "" {
 		logger.Debug(err)
 		SendBaseResponse(c, errno.ConvertErr(err))
 		return
+	} else {
+		queryVar.LastestTime = strconv.FormatInt(time.Now().Unix(), 10)
 	}
 	req := &feed.DouyinFeedRequest{
 		LastestTime: &lst,
