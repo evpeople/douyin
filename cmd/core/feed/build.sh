@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-RUN_NAME="douyin.feed"
+RUN_NAME="feed"
 
 mkdir -p output/bin
 cp script/* output/
