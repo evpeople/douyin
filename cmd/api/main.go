@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/cloudwego/kitex/pkg/klog"
@@ -30,7 +31,14 @@ func main() {
 	feed.Use(handlers.AuthMiddleware.MiddlewareFunc())
 	feed.GET("", handlers.GetVideos)
 	publish := v1.Group("/publish")
-	//TODO:添加中间件把Token放到header中
+	publish.Use(func(ctx *gin.Context) {
+		token, ok := ctx.GetPostForm("token")
+		if !ok {
+			log.Println("publish not have token")
+		}
+		log.Println(token)
+		ctx.Request.AddCookie(&http.Cookie{Name: "jwt", Value: token})
+	})
 	publish.Use(handlers.AuthMiddleware.MiddlewareFunc())
 	// publish.GET("/list",handler.)
 	publish.POST("/action", handlers.UploadVideo)
