@@ -39,4 +39,5 @@ message UploadFileRequest {
 service PublishService {
 	rpc GetPublishVideos (douyin_publish_request) returns (douyin_publish_response);
 	rpc PostVideos (UploadFileRequest) returns (BaseResponse);
+	rpc GetVideos (douyin_publish_request) returns (douyin_publish_response);
 }

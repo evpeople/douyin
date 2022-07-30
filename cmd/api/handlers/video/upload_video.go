@@ -1,9 +1,10 @@
-package handlers
+package video
 
 import (
 	"log"
 
 	"github.com/cloudwego/kitex/pkg/klog"
+	"github.com/evpeople/douyin/cmd/api/handlers"
 	"github.com/evpeople/douyin/pkg/cos"
 	"github.com/gin-gonic/gin"
 )
@@ -20,5 +21,5 @@ func UploadVideo(c *gin.Context) {
 	defer src.Close()
 	url, err := cos.UploadVideo(c.PostForm("title"), src)
 	log.Println(url)
-	SendBaseResponse(c, err)
+	handlers.SendBaseResponse(c, err)
 }
