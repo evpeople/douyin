@@ -27,9 +27,9 @@ type User struct {
 	UserName       string `json:"user_name" gorm:"unique"`
 	Password       string `json:"password"`
 	UserId         int64  `json:"User_id"`
-	Follow_count   int64  `json:"follow_count`
-	Follower_count int64  `json:"follower_count`
-	IsFollow       bool   `json:"is_follow`
+	Follow_count   int64  `json:"follow_count"`
+	Follower_count int64  `json:"follower_count"`
+	IsFollow       bool   `json:"is_follow"`
 }
 
 func (u *User) TableName() string {
