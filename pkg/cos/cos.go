@@ -30,8 +30,9 @@ func init() {
 	})
 
 }
-func UploadVideo(key string, r io.Reader) error {
+func UploadVideo(key string, r io.Reader) (string, error) {
 	opt := &cos.ObjectPutOptions{}
 	_, err := DefaultClient.Object.Put(context.Background(), key, r, opt)
-	return err
+	resp := DefaultClient.Object.GetObjectURL(key)
+	return resp.String(), err
 }

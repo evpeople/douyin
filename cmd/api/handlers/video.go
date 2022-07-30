@@ -18,6 +18,7 @@ func UploadVideo(c *gin.Context) {
 		log.Println(err)
 	}
 	defer src.Close()
-	err = cos.UploadVideo(c.PostForm("title"), src)
+	url, err := cos.UploadVideo(c.PostForm("title"), src)
+	log.Println(url)
 	SendBaseResponse(c, err)
 }

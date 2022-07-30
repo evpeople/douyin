@@ -4,11 +4,10 @@ option go_package="publish";
 /* proto3。沒有 required 和 optional */
 message douyin_publish_request {
 	optional int64 user_id=1;//登录用户设置这个值
+	optional int64 lastest_time=2; //最新投稿时间戳，不填则是当前的时间
 }
 message douyin_publish_response {
-	int32 status_code=1;
-	optional string status_msg=2;
-	repeated Video video_list=3;
+	repeated Video video_list=1;
 }
 message Video {
 	int64 id=1;
@@ -34,10 +33,10 @@ message BaseResponse {
 }
 message UploadFileRequest {
 	string title= 1;
-	bytes data= 2;
+	string url= 2;
 	int64 id=3;
 }
-service VideoService {
+service PublishService {
 	rpc GetPublishVideos (douyin_publish_request) returns (douyin_publish_response);
 	rpc PostVideos (UploadFileRequest) returns (BaseResponse);
 }
