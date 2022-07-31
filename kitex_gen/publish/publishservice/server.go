@@ -3,7 +3,7 @@ package publishservice
 
 import (
 	"github.com/cloudwego/kitex/server"
-	"github.com/evpeople/douyin/idl/kitex_gen/publish"
+	"github.com/evpeople/douyin/kitex_gen/publish"
 )
 
 // NewServer creates a server.Server with the given handler and options.

@@ -4,7 +4,7 @@ package publishservice
 
 import (
 	"github.com/cloudwego/kitex/server"
-	"github.com/evpeople/douyin/idl/kitex_gen/publish"
+	"github.com/evpeople/douyin/kitex_gen/publish"
 )
 
 // NewInvoker creates a server.Invoker with the given handler and options.

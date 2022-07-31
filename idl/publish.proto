@@ -33,8 +33,9 @@ message BaseResponse {
 }
 message UploadFileRequest {
 	string title= 1;
-	string url= 2;
-	int64 id=3;
+	string video_url= 2;
+	string cover_url= 3;
+	int64 author_id=4;
 }
 service PublishService {
 	rpc GetPublishVideos (douyin_publish_request) returns (douyin_publish_response);
