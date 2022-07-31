@@ -41,7 +41,7 @@ func main() {
 		ctx.Request.AddCookie(&http.Cookie{Name: "jwt", Value: token})
 	})
 	publish.Use(user.AuthMiddleware.MiddlewareFunc())
-	// publish.GET("/list",handler.)
+	publish.GET("/list", video.GetPublishVideos)
 	publish.POST("/action", video.UploadVideo)
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		klog.Fatal(err)

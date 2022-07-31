@@ -49,3 +49,11 @@ func UploadVideo(ctx context.Context, req *publish.UploadFileRequest) (*publish.
 	}
 	return resp, nil
 }
+func GetVideos(ctx context.Context, auth bool, req *publish.DouyinPublishRequest) (resp *publish.DouyinPublishResponse, err error) {
+	if auth {
+		resp, err = publishClient.GetPublishVideos(ctx, req)
+	} else {
+		resp, err = publishClient.GetVideos(ctx, req)
+	}
+	return
+}
