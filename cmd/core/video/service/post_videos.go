@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
+	"github.com/evpeople/douyin/cmd/core/video/dal/db"
 	"github.com/evpeople/douyin/kitex_gen/publish"
-	"github.com/evpeople/douyin/pkg/errno"
 )
 
 type PostVideosService struct {
@@ -17,6 +17,15 @@ func NewPostVideosService(ctx context.Context) *PostVideosService {
 }
 
 // MGetUser multiple get list of user info
-func (s *PostVideosService) PostVideos(req *publish.DouyinPublishRequest) (*publish.Video, error) {
-	return nil, errno.LoginErr
+func (s *PostVideosService) PostVideos(req *publish.UploadFileRequest) error {
+	v := db.Video{
+		Title:         req.Title,
+		Author:        req.AuthorId,
+		PlayUrl:       req.VideoUrl,
+		CoverUrl:      req.CoverUrl,
+		FavoriteCount: 0,
+		CommentCount:  0,
+		IsFavorite:    false,
+	}
+	return db.CreateVideo(context.Background(), []*db.Video{&v})
 }
