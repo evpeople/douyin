@@ -7,7 +7,8 @@ import (
 	"github.com/cloudwego/kitex/pkg/limit"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
-	"github.com/evpeople/douyin/cmd/core/user/dal"
+	userdb "github.com/evpeople/douyin/cmd/core/user/dal/db"
+	"github.com/evpeople/douyin/cmd/core/video/dal"
 	publish "github.com/evpeople/douyin/kitex_gen/publish/publishservice"
 	"github.com/evpeople/douyin/pkg/constants"
 	tracer2 "github.com/evpeople/douyin/pkg/tracer"
@@ -18,13 +19,14 @@ import (
 func Init() {
 	tracer2.InitJaeger(constants.VideoServiceName)
 	dal.Init()
+	userdb.Init()
 }
 func main() {
 	r, err := etcd.NewEtcdRegistry([]string{constants.EtcdAddress})
 	if err != nil {
 		panic(err)
 	}
-	addr, err := net.ResolveTCPAddr("tcp", "127.0.0.1:8889")
+	addr, err := net.ResolveTCPAddr("tcp", "127.0.0.1:8888")
 	if err != nil {
 		panic(err)
 	}

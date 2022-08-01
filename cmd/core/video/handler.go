@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log"
 
 	"github.com/evpeople/douyin/cmd/core/video/service"
 	"github.com/evpeople/douyin/kitex_gen/publish"
@@ -13,8 +14,8 @@ type PublishServiceImpl struct{}
 
 // GetPublishVideos implements the PublishServiceImpl interface.
 func (s *PublishServiceImpl) GetPublishVideos(ctx context.Context, req *publish.DouyinPublishRequest) (resp *publish.DouyinPublishResponse, err error) {
-	// TODO: Your code here...
-	return
+	videos, err := service.NewMGetPublishVideosService(ctx).MGetVideos(req)
+	return &publish.DouyinPublishResponse{VideoList: videos}, err
 }
 
 // PostVideos implements the PublishServiceImpl interface.
@@ -27,6 +28,7 @@ func (s *PublishServiceImpl) PostVideos(ctx context.Context, req *publish.Upload
 
 // GetVideos implements the PublishServiceImpl interface.
 func (s *PublishServiceImpl) GetVideos(ctx context.Context, req *publish.DouyinPublishRequest) (resp *publish.DouyinPublishResponse, err error) {
-	// TODO: Your code here...
-	return
+	videos, err := service.NewMGetVideosService(ctx).MGetVideos(req)
+	log.Println("getvideos", videos)
+	return &publish.DouyinPublishResponse{VideoList: videos}, err
 }

@@ -20,13 +20,15 @@ func NewMGetVideosService(ctx context.Context) *GetVideosService {
 
 // MGetUser multiple get list of user info
 func (s *GetVideosService) MGetVideos(req *publish.DouyinPublishRequest) ([]*publish.Video, error) {
-	videos, err := db.MGetPublishVideo(context.TODO(), *req.UserId)
+	videos, err := db.MGetVideo(context.TODO(), *req.UserId)
 	if err != nil {
 		log.Println(err)
 	}
+	log.Println("MGetVideos", videos)
 	ans := make([]*publish.Video, len(videos))
 	for i := 0; i < len(videos); i++ {
-		user, err := userdb.MGetUser(context.TODO(), *req.UserId)
+		// log.Panicln("ssss", videos[i].Author)
+		user, err := userdb.MGetUser(context.TODO(), videos[i].Author)
 		if err != nil {
 			log.Println(err)
 		}
