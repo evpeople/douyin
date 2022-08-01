@@ -22,7 +22,7 @@ func UploadVideo(key string, r io.Reader) (videoUrl string, picUrl string, err e
 	optPut := &cos.ObjectPutOptions{}
 	_, err = DefaultVideoClient.Object.Put(context.Background(), key, r, optPut)
 	if err != nil {
-		log.Println(err)
+		log.Panicln(err)
 	}
 	respVideo := DefaultVideoClient.Object.GetObjectURL(key)
 
@@ -31,11 +31,11 @@ func UploadVideo(key string, r io.Reader) (videoUrl string, picUrl string, err e
 	}
 	PicResp, err := DefaultVideoClient.CI.GetSnapshot(context.Background(), key, optSnap)
 	if err != nil {
-		log.Println(err)
+		log.Panicln(err)
 	}
 	_, err = DefaultPicClient.Object.Put(context.Background(), key, PicResp.Body, optPut)
 	if err != nil {
-		log.Println(err)
+		log.Panicln(err)
 	}
 	respPic := DefaultPicClient.Object.GetObjectURL(key)
 	return respVideo.String(), respPic.String(), err

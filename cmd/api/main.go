@@ -21,7 +21,7 @@ func Init() {
 func main() {
 	Init()
 	r := gin.New()
-
+	r.MaxMultipartMemory = int64(64 << 20)
 	v1 := r.Group("/douyin")
 	user1 := v1.Group("/user")
 	user1.GET("", user.GetUser)
@@ -33,10 +33,7 @@ func main() {
 	feed.GET("", video.GetVideos)
 	publish := v1.Group("/publish")
 	publish.Use(func(ctx *gin.Context) {
-		token, ok := ctx.GetPostForm("token")
-		if !ok {
-			log.Println("publish not have token")
-		}
+		token := ctx.PostForm("token")
 		log.Println(token)
 		ctx.Request.AddCookie(&http.Cookie{Name: "jwt", Value: token})
 	})

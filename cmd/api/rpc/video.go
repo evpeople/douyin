@@ -2,6 +2,7 @@ package rpc
 
 import (
 	"context"
+	"log"
 	"time"
 
 	"github.com/cloudwego/kitex/client"
@@ -23,7 +24,7 @@ func initPublishRpc() {
 	}
 
 	c, err := publishservice.NewClient(
-		constants.PublishServiceName,
+		constants.VideoServiceName,
 		client.WithMuxConnection(1),                       // mux
 		client.WithRPCTimeout(3*time.Second),              // rpc timeout
 		client.WithConnectTimeout(50*time.Millisecond),    // conn timeout
@@ -54,6 +55,7 @@ func GetVideos(ctx context.Context, auth bool, req *publish.DouyinPublishRequest
 		resp, err = publishClient.GetPublishVideos(ctx, req)
 	} else {
 		resp, err = publishClient.GetVideos(ctx, req)
+		log.Println("no auth", resp)
 	}
 	return
 }

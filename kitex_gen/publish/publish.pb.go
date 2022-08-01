@@ -130,7 +130,7 @@ type Video struct {
 	unknownFields protoimpl.UnknownFields
 
 	Id            int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Author        *User  `protobuf:"bytes,2,opt,name=author,proto3" json:"author,omitempty"`
+	Author        *User  `protobuf:"bytes,2,opt,name=author,proto3" json:"author"`
 	PlayUrl       string `protobuf:"bytes,3,opt,name=play_url,json=playUrl,proto3" json:"play_url,omitempty"`
 	CoverUrl      string `protobuf:"bytes,4,opt,name=cover_url,json=coverUrl,proto3" json:"cover_url,omitempty"`
 	FavoriteCount int64  `protobuf:"varint,5,opt,name=favorite_count,json=favoriteCount,proto3" json:"favorite_count,omitempty"`
@@ -232,11 +232,11 @@ type User struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id            int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	FollowCount   *int64 `protobuf:"varint,3,opt,name=follow_count,json=followCount,proto3,oneof" json:"follow_count,omitempty"`
-	FollowerCount *int64 `protobuf:"varint,4,opt,name=follower_count,json=followerCount,proto3,oneof" json:"follower_count,omitempty"`
-	IsFollow      bool   `protobuf:"varint,5,opt,name=is_follow,json=isFollow,proto3" json:"is_follow,omitempty"`
+	Id            int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
+	Name          string `protobuf:"bytes,2,opt,name=name,proto3" json:"name"`
+	FollowCount   *int64 `protobuf:"varint,3,opt,name=follow_count,json=followCount,proto3,oneof" json:"follow_count"`
+	FollowerCount *int64 `protobuf:"varint,4,opt,name=follower_count,json=followerCount,proto3,oneof" json:"follower_count"`
+	IsFollow      bool   `protobuf:"varint,5,opt,name=is_follow,json=isFollow,proto3" json:"is_follow"`
 }
 
 func (x *User) Reset() {
