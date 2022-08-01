@@ -23,12 +23,12 @@ func main() {
 	r := gin.New()
 	r.MaxMultipartMemory = int64(64 << 20)
 	v1 := r.Group("/douyin")
-	user1 := v1.Group("/user")
+	user1 := v1.Group("/user/")
 	user1.GET("", user.GetUser)
 	// authMiddl
-	user1.POST("/login", user.AuthMiddleware.LoginHandler)
-	user1.POST("/register", user.Register)
-	feed := v1.Group("/feed")
+	user1.POST("/login/", user.AuthMiddleware.LoginHandler)
+	user1.POST("/register/", user.Register)
+	feed := v1.Group("/feed/")
 	feed.Use(user.AuthMiddleware.MiddlewareFunc())
 	feed.GET("", video.GetVideos)
 	publish := v1.Group("/publish")
@@ -38,8 +38,8 @@ func main() {
 		ctx.Request.AddCookie(&http.Cookie{Name: "jwt", Value: token})
 	})
 	publish.Use(user.AuthMiddleware.MiddlewareFunc())
-	publish.GET("/list", video.GetPublishVideos)
-	publish.POST("/action", video.UploadVideo)
+	publish.GET("/list/", video.GetPublishVideos)
+	publish.POST("/action/", video.UploadVideo)
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		klog.Fatal(err)
 	}
