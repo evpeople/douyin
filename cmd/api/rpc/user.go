@@ -51,7 +51,6 @@ func CreateUser(ctx context.Context, req *user.DouyinUserRequest) (*user.DouyinU
 }
 
 // CheckUser check user info
-//TODO:似乎有些错误
 func CheckUser(ctx context.Context, req *user.DouyinUserRequest) (int64, error) {
 	// resp, err := userClient.CheckUser(ctx, req)
 	resp, err := userClient.LoginUser(ctx, req)
@@ -64,6 +63,8 @@ func CheckUser(ctx context.Context, req *user.DouyinUserRequest) (int64, error) 
 	}
 	return resp.BaseMessage.UserId, nil
 }
+
+// GetUser get user info
 func GetUser(ctx context.Context, req *user.DouyinUserMessageRequest) (*user.User, error) {
 	resp, err := userClient.GetUser(ctx, req)
 

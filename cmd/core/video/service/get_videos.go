@@ -13,12 +13,12 @@ type GetVideosService struct {
 	ctx context.Context
 }
 
-// NewMGetUserService new MGetUserService
+// NewMGetVideoService new MGetVideoService
 func NewMGetVideosService(ctx context.Context) *GetVideosService {
 	return &GetVideosService{ctx: ctx}
 }
 
-// MGetUser multiple get list of user info
+// MGetVideos multiple get list of videos info
 func (s *GetVideosService) MGetVideos(req *publish.DouyinPublishRequest) ([]*publish.Video, error) {
 	videos, err := db.MGetVideo(context.TODO(), *req.UserId)
 	if err != nil {
@@ -27,7 +27,6 @@ func (s *GetVideosService) MGetVideos(req *publish.DouyinPublishRequest) ([]*pub
 	log.Println("MGetVideos", videos)
 	ans := make([]*publish.Video, len(videos))
 	for i := 0; i < len(videos); i++ {
-		// log.Panicln("ssss", videos[i].Author)
 		user, err := userdb.MGetUser(context.TODO(), videos[i].Author)
 		if err != nil {
 			log.Println(err)

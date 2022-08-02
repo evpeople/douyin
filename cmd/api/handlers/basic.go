@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//SendBaseResponse 发送基本的相应
 func SendBaseResponse(c *gin.Context, err error) {
 	Err := errno.ConvertErr(err)
 	resp := struct {
@@ -17,6 +18,8 @@ func SendBaseResponse(c *gin.Context, err error) {
 	c.JSON(http.StatusOK,
 		resp)
 }
+
+//GetIdFromRequest 从Auth过的Context中获取user_id
 func GetIdFromRequest(c *gin.Context) int64 {
 
 	return int64(jwt.ExtractClaims(c)["id"].(float64))

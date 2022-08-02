@@ -13,16 +13,13 @@ type GetPublishVideosService struct {
 	ctx context.Context
 }
 
-// NewMGetUserService new MGetUserService
+// NewMGetPublishVideoService new MGetPublishVideoService
 func NewMGetPublishVideosService(ctx context.Context) *GetPublishVideosService {
 	return &GetPublishVideosService{ctx: ctx}
 }
 
-// MGetUser multiple get list of user info
+// MGetVideo multiple get list of Publish Video info
 func (s *GetPublishVideosService) MGetVideos(req *publish.DouyinPublishRequest) ([]*publish.Video, error) {
-	// modelUser, err := db.MGetUser(s.ctx, req.BaseResp.UserId)
-	// if err != nil {
-	// log.Panicln("userID ", *req.UserId)
 	videos, err := db.MGetPublishVideo(context.TODO(), *req.UserId)
 	if err != nil {
 		log.Println(err)
@@ -53,8 +50,5 @@ func (s *GetPublishVideosService) MGetVideos(req *publish.DouyinPublishRequest) 
 		}
 		log.Println("is follow", ans[i].Author.IsFollow)
 	}
-	// fmt.Println(ans[0].Author, "is follow", ans[0].Author.IsFollow)
 	return ans, nil
-	// }
-	// return pack.User(modelUser), nil
 }

@@ -11,33 +11,37 @@ import (
 	"github.com/tencentyun/cos-go-sdk-v5"
 )
 
-var DefaultVideoClient *cos.Client
-var DefaultPicClient *cos.Client
+var (
+	VideoClient *cos.Client
+	PicClient   *cos.Client
+)
 
 func init() {
-	DefaultVideoClient = createClient("BACKETVIDEOURL")
-	DefaultPicClient = createClient("BACKETPICURL")
+	VideoClient = createClient("BACKETVIDEOURL")
+	PicClient = createClient("BACKETPICURL")
 }
+
+//UploadVideo 用于上传实拍，同时会生成cover_url
 func UploadVideo(key string, r io.Reader) (videoUrl string, picUrl string, err error) {
 	optPut := &cos.ObjectPutOptions{}
-	_, err = DefaultVideoClient.Object.Put(context.Background(), key, r, optPut)
+	_, err = VideoClient.Object.Put(context.Background(), key, r, optPut)
 	if err != nil {
 		log.Panicln(err)
 	}
-	respVideo := DefaultVideoClient.Object.GetObjectURL(key)
+	respVideo := VideoClient.Object.GetObjectURL(key)
 
 	optSnap := &cos.GetSnapshotOptions{
 		Time: 1,
 	}
-	PicResp, err := DefaultVideoClient.CI.GetSnapshot(context.Background(), key, optSnap)
+	PicResp, err := VideoClient.CI.GetSnapshot(context.Background(), key, optSnap)
 	if err != nil {
 		log.Panicln(err)
 	}
-	_, err = DefaultPicClient.Object.Put(context.Background(), key, PicResp.Body, optPut)
+	_, err = PicClient.Object.Put(context.Background(), key, PicResp.Body, optPut)
 	if err != nil {
 		log.Panicln(err)
 	}
-	respPic := DefaultPicClient.Object.GetObjectURL(key)
+	respPic := PicClient.Object.GetObjectURL(key)
 	return respVideo.String(), respPic.String(), err
 }
 func createClient(backetUrl string) *cos.Client {

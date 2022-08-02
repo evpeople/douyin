@@ -58,20 +58,13 @@ func (s *UserServiceImpl) LoginUser(ctx context.Context, req *user.DouyinUserReq
 func (s *UserServiceImpl) GetUser(ctx context.Context, req *user.DouyinUserMessageRequest) (resp *user.DouyinUesrMessageResponse, err error) {
 	resp = new(user.DouyinUesrMessageResponse)
 
-	// if len(req.UserIds) == 0 {
-	// 	resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
-	// 	return resp, nil
-	// }
 	users, err := service.NewMGetUserService(ctx).MGetUser(req)
 
-	// users, err := service.NewGetUserService(ctx).GetUser(req)
 	if err != nil {
-		resp.BaseResponse=pack.BuildBaseResp(err)
-		// resp.BaseResp = pack.BuildBaseResp(err)
+		resp.BaseResponse = pack.BuildBaseResp(err)
 		return resp, nil
 	}
-		resp.BaseResponse=pack.BuildBaseResp(errno.Success)
-	// resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.BaseResponse = pack.BuildBaseResp(errno.Success)
 	resp.User = users
 	return resp, nil
 }

@@ -38,6 +38,7 @@ func (u *Video) TableName() string {
 }
 
 //TODO: 添加外键约束和关联查询。
+//MGetPublishVideo 获取当前用户上传过的文件
 func MGetPublishVideo(ctx context.Context, userIDs int64) ([]*Video, error) {
 	res := make([]*Video, 0)
 	if err := DB.WithContext(ctx).Where("author= ?", userIDs).Find(&res).Error; err != nil {
@@ -47,6 +48,7 @@ func MGetPublishVideo(ctx context.Context, userIDs int64) ([]*Video, error) {
 }
 
 //TODO:考虑在查询中加上 time参数
+//MGetVideo 按序获取3个视频
 func MGetVideo(ctx context.Context, time int64) ([]*Video, error) {
 	res := make([]*Video, 0)
 	if err := DB.WithContext(ctx).Limit(3).Find(&res).Error; err != nil {
@@ -55,19 +57,7 @@ func MGetVideo(ctx context.Context, time int64) ([]*Video, error) {
 	return res, nil
 }
 
-// CreateUser create user info
+// CreateVideo create video info
 func CreateVideo(ctx context.Context, videos []*Video) error {
 	return DB.WithContext(ctx).Create(videos).Error
 }
-
-// // QueryUser query list of user info
-// func QueryUser(ctx context.Context, username string) (*User, error) {
-// 	// res := make([]*User, 0)
-// 	res := new(User)
-// 	// ans:=DB.First(res, "user_name = ?", username)
-// 	if err := DB.First(res, "user_name = ?", username).Error; err != nil {
-// 		//没有找到数据，可能返回的是 RecordNotExist
-// 		return res, err
-// 	}
-// 	return res, nil
-// }

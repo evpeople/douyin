@@ -14,6 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//AuthMiddleware 验证中间件
 var AuthMiddleware *jwt.GinJWTMiddleware
 
 func init() {

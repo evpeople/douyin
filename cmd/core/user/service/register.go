@@ -40,7 +40,6 @@ func (s *CreateUserService) CreateUser(req *user.DouyinUserRequest) (uint, error
 		err := db.CreateUser(s.ctx, ur)
 		return ur[0].ID, err
 	} else {
-		// logger.Debug(users.UserName, req.Username)
 		return users.ID, errno.UserAlreadyExistErr
 	}
 

@@ -11,12 +11,12 @@ type PostVideosService struct {
 	ctx context.Context
 }
 
-// NewMGetUserService new MGetUserService
+//  NewPostVideosService new PostVideosService
 func NewPostVideosService(ctx context.Context) *PostVideosService {
 	return &PostVideosService{ctx: ctx}
 }
 
-// MGetUser multiple get list of user info
+// MPostVideos multiple post video info
 func (s *PostVideosService) PostVideos(req *publish.UploadFileRequest) error {
 	v := db.Video{
 		Title:         req.Title,

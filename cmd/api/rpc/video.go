@@ -38,6 +38,7 @@ func initPublishRpc() {
 	publishClient = c
 }
 
+// UploadVideo upload video
 func UploadVideo(ctx context.Context, req *publish.UploadFileRequest) (*publish.BaseResponse, error) {
 	// resp, err := userClient.CreateUser(ctx, req)
 	// resp, err := userClient.RegisterUser(ctx, req)
@@ -50,6 +51,8 @@ func UploadVideo(ctx context.Context, req *publish.UploadFileRequest) (*publish.
 	}
 	return resp, nil
 }
+
+// GetVideos get video info
 func GetVideos(ctx context.Context, auth bool, req *publish.DouyinPublishRequest) (resp *publish.DouyinPublishResponse, err error) {
 	if auth {
 		resp, err = publishClient.GetPublishVideos(ctx, req)

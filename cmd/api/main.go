@@ -25,7 +25,6 @@ func main() {
 	v1 := r.Group("/douyin")
 	user1 := v1.Group("/user/")
 	user1.GET("", user.GetUser)
-	// authMiddl
 	user1.POST("/login/", user.AuthMiddleware.LoginHandler)
 	user1.POST("/register/", user.Register)
 	feed := v1.Group("/feed/")
