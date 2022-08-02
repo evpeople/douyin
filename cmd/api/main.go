@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"math/rand"
 	"net/http"
 
 	"github.com/cloudwego/kitex/pkg/klog"
@@ -23,6 +24,12 @@ func main() {
 	r := gin.New()
 	r.MaxMultipartMemory = int64(64 << 20)
 	v1 := r.Group("/douyin")
+	v1.Use(func(ctx *gin.Context) {
+		randomID := rand.Int()
+		log.Println("begin deal with", ctx.Request.RequestURI, "tracerID ", randomID)
+		ctx.Next()
+		log.Println("finish deal with", ctx.Request.RequestURI, "tracerID", randomID)
+	})
 	user1 := v1.Group("/user/")
 	user1.GET("", user.GetUser)
 	user1.POST("/login/", user.AuthMiddleware.LoginHandler)
